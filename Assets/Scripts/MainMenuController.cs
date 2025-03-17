@@ -1,10 +1,20 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class MainMenuController : MonoBehaviour
 {
+
+    public SceneTransition transitionScript;
+    public GameObject fadeTransition;
+
+    void Start(){
+        fadeTransition.SetActive(false);
+    }
+
     public void StartGame(){
-        SceneManager.LoadScene("Main Game");
+        fadeTransition.SetActive(true);
+        transitionScript.beginFadeTransition("Main Game");
     }
 
 //Function to close the application
