@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: bf5468647183a4f739afca21b1fbc21d
+guid: a73d454ea8234c6418b06ecc8c00de5d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3171992775115968643
-    second: punkdoublejump005_0
+      213: 1117166607663554933
+    second: EyeIdle002_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,40 +96,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: punkdoublejump005_0
+      name: EyeIdle002_0
       rect:
         serializedVersion: 2
-        x: 6
+        x: 0
         y: 0
-        width: 17
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 48
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 38094ee7f9e250c20800000000000000
-      internalID: 3171992775115968643
+      spriteID: 571e6b45c19f08f00800000000000000
+      internalID: 1117166607663554933
       vertices: []
       indices: 
       edges: []
@@ -138,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 78dbc209bdea1e34d87e729c6a6d213d
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      punkdoublejump005_0: 3171992775115968643
+      EyeIdle002_0: 1117166607663554933
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
