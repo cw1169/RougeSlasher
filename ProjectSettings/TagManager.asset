@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Eye Enemy
+  - Start Button
   layers:
   - Default
   - TransparentFX
