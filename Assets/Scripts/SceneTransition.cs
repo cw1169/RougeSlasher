@@ -7,7 +7,7 @@ public class SceneTransition : MonoBehaviour
 //Public variables
 public float fadeDuration = 1.0f;
 public Image fadeImage;
-void start()
+void Start()
 {
     StartCoroutine(fadeIn());
 }
