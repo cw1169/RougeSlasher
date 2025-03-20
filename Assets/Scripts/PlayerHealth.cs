@@ -35,7 +35,7 @@ public class PlayerHealth : MonoBehaviour
         StartCoroutine(DamageFlash());
         if(health <= 0){
             isDead = true;
-            body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+            body.constraints = RigidbodyConstraints2D.FreezePositionX;
         }
     }
 
