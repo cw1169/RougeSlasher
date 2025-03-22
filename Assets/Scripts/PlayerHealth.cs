@@ -1,16 +1,17 @@
 using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
     public int health;
-
     public bool isDead;
-
+    
     private Animator playerAnimation;
     private Rigidbody2D body;
     private SpriteRenderer spriteRenderer;
+    private GameObject player;
 
 
 
@@ -22,6 +23,7 @@ public class PlayerHealth : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         health = maxHealth;
         isDead = false;
+        player = GetComponent<GameObject>();
     }
 
     // Update is called once per frame
@@ -35,7 +37,7 @@ public class PlayerHealth : MonoBehaviour
         StartCoroutine(DamageFlash());
         if(health <= 0){
             isDead = true;
-            body.constraints = RigidbodyConstraints2D.FreezePositionX;
+            StartCoroutine(ReloadScene());
         }
     }
 
@@ -44,5 +46,11 @@ public class PlayerHealth : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         spriteRenderer.color = Color.white;
 
+    }
+
+    public IEnumerator ReloadScene(){
+         yield return new WaitForSeconds(1);
+         Scene currentScene = SceneManager.GetActiveScene();
+         SceneManager.LoadScene(currentScene.name);
     }
 }
