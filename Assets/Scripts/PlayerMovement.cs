@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public PlayerHealth playerHealth;
 
    
+    private bool hasLanded = false;
     private InputAction move;
     private InputAction dash;
     private InputAction jump;
@@ -31,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     private Animator playerAnimation;
     private SpriteRenderer spriteRenderer;
     private TrailRenderer trailRenderer;
+    private bool facingRight;
+    private bool facingLeft;
 
 
     private void Awake()
@@ -76,8 +79,10 @@ public class PlayerMovement : MonoBehaviour
         // move = Input.GetAxis("Horizontal");
         moveDirection = move.ReadValue<Vector2>();
 
+        // moves playerr left and right
         body.linearVelocity = new Vector2(speed * moveDirection.x, body.linearVelocity.y);
 
+        // Switch player direction based on movement
         if (moveDirection.x > 0)
         {
             body.transform.localScale = new Vector3(1, 1, 1); // Face Right
@@ -87,34 +92,45 @@ public class PlayerMovement : MonoBehaviour
             body.transform.localScale = new Vector3(-1, 1, 1); // Face Left
         }
 
+        // checks for grounded
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        if(isGrounded){
+        if(isGrounded && hasLanded == false){
             doubleJumpCount = 1;
             isDoubleJump = false;
+            hasLanded = true;
         }
 
+        // jump and double jump 
         if(jump.WasPressedThisFrame() && isGrounded){
             body.AddForce(new Vector2(body.linearVelocity.x, jumpSpeed));
             isDoubleJump = false;
+            hasLanded = false;
         }
         else if(jump.WasPressedThisFrame() && doubleJumpCount > 0 && isGrounded == false){
             body.linearVelocity = new Vector2(body.linearVelocity.x, doubleJumpSpeed);
             doubleJumpCount = doubleJumpCount - 1;
             isDoubleJump = true;
+            hasLanded = false;
         }
 
+        // Dashing
         if (dash.WasPressedThisFrame() && canDash) 
         {
             StartCoroutine(Dash());
         }
 
-
-        playerAnimation.SetFloat("Speed", Mathf.Abs(body.linearVelocity.x));
+        
+        // returning animation conditions
+        playerAnimation.SetFloat("Speed", Mathf.Abs(moveDirection.x));
         playerAnimation.SetBool("isGrounded", isGrounded);
         playerAnimation.SetBool("isDoubleJump", isDoubleJump);
+        playerAnimation.SetBool("hasLanded", hasLanded);
+        playerAnimation.SetBool("isDashing", isDashing);
+
     }
 
 
+    // dash code
     private IEnumerator Dash(){
         canDash = false;
         isDashing = true;
