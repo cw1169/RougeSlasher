@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Threading;
+using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,9 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
    
     private bool hasLanded = false;
-    private InputAction move;
-    private InputAction dash;
-    private InputAction jump;
+    private InputAction move, dash, jump, crouch, attack; // declare input actions
     private bool canDash;
     private bool isDashing;
     private Rigidbody2D body;
@@ -29,12 +29,12 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private int doubleJumpCount;
     private bool isDoubleJump;
+    private bool isCrouching;
     private Animator playerAnimation;
     private SpriteRenderer spriteRenderer;
     private TrailRenderer trailRenderer;
     private bool facingRight;
     private bool facingLeft;
-
 
     private void Awake()
     {
@@ -46,9 +46,13 @@ public class PlayerMovement : MonoBehaviour
         move = InputSystem.Player.Move;
         dash = InputSystem.Player.Dash;
         jump = InputSystem.Player.Jump;
+        crouch = InputSystem.Player.Crouch;
+        attack = InputSystem.Player.Attack;
         move.Enable();
         dash.Enable();
         jump.Enable();
+        crouch.Enable();
+        attack.Enable();
     }
 
         private void OnDisable()
@@ -56,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
         move.Disable();
         dash.Disable();
         jump.Disable();
+        crouch.Disable();
+        attack.Disable();
     }
 
 
@@ -119,6 +125,15 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(Dash());
         }
 
+        // controls player crouching
+        if (moveDirection.x == 0 && isGrounded == true && crouch.WasPressedThisFrame())
+        {
+            isCrouching = true;
+        }
+        else if (moveDirection.x == 0 && isGrounded == true && crouch.WasReleasedThisFrame()){
+            isCrouching = false;
+        }
+
         
         // returning animation conditions
         playerAnimation.SetFloat("Speed", Mathf.Abs(moveDirection.x));
@@ -126,6 +141,7 @@ public class PlayerMovement : MonoBehaviour
         playerAnimation.SetBool("isDoubleJump", isDoubleJump);
         playerAnimation.SetBool("hasLanded", hasLanded);
         playerAnimation.SetBool("isDashing", isDashing);
+        playerAnimation.SetBool("isCrouching", isCrouching);
 
     }
 
