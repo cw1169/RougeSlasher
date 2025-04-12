@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Eye Enemy
   - Start Button
+  - Record
+  - Wall
+  - Ceiling
   layers:
   - Default
   - TransparentFX
@@ -14,7 +17,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - Wall
   - 
   - 
   - 

@@ -3,6 +3,7 @@ using System.Threading;
 using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,9 +15,12 @@ public class PlayerMovement : MonoBehaviour
     public float dashingPower;
     public float dashingTime;
     public float dashingCooldown;
+    public float wallSlideSpeed;
+    public float wallCheckRadius;
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
+    public LayerMask wallLayer;
     public PlayerHealth playerHealth;
 
    
@@ -35,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     private TrailRenderer trailRenderer;
     private bool facingRight;
     private bool facingLeft;
+    public bool isOnWall;
 
     private void Awake()
     {
@@ -125,13 +130,22 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(Dash());
         }
 
-        // controls player crouching
+        // controls player crouching NOT WORKING
         if (moveDirection.x == 0 && isGrounded == true && crouch.WasPressedThisFrame())
         {
             isCrouching = true;
         }
         else if (moveDirection.x == 0 && isGrounded == true && crouch.WasReleasedThisFrame()){
             isCrouching = false;
+        }
+
+        // onWALL
+        wallCheckRayCast();
+        if (isOnWall && !isGrounded)
+        {
+            body.transform.localScale = new Vector3(1, 1, 1); // Face Right
+            body.linearVelocity = new Vector2(body.linearVelocity.x, wallSlideSpeed);
+            
         }
 
         
@@ -142,9 +156,29 @@ public class PlayerMovement : MonoBehaviour
         playerAnimation.SetBool("hasLanded", hasLanded);
         playerAnimation.SetBool("isDashing", isDashing);
         playerAnimation.SetBool("isCrouching", isCrouching);
+        playerAnimation.SetBool("isOnWall", isOnWall);
 
     }
 
+
+
+    // check if player is on the wall
+    public void wallCheckRayCast()
+    {
+        Debug.DrawRay(transform.position, Vector3.left*wallCheckRadius, Color.white, 0);
+        
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left, wallCheckRadius, wallLayer);
+        if (hit.collider != null && hit.collider.CompareTag("Wall"))
+        {
+            isOnWall = true;
+            Debug.DrawRay(transform.position, Vector3.left * wallCheckRadius, Color.red, 0);
+            Debug.Log("Hit Wall");
+        }
+        else
+        {
+            isOnWall = false;
+        }
+    }
 
     // dash code
     private IEnumerator Dash(){
